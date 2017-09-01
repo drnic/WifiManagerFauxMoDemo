@@ -19,3 +19,46 @@ lib_deps =
   https://github.com/drnic/ESPAsyncWebServer#ESP8266WebServerOK
   https://bitbucket.org/drnic/fauxmoesp.git#ESP8266WebServerOK
 ```
+
+To compile/upload/monitor output:
+
+```
+pio run --target upload --target monitor
+```
+
+This will automatically download the dependency libraries before compilation.
+
+On the initial deployment, when the ESP8266 device does not have your local Wifi configuration (or if you uncomment `wifiManager.resetSettings();` line), the output will look similar to:
+
+```
+*WM: AP IP address:
+*WM: 192.168.4.1
+*WM: HTTP server started
+```
+
+With your phone or laptop, look for a wifi access point called `ESP1716003` or similar and connect to it. Your phone will popup the WifiManager web page and allow you to configure your ESP8266 device for your local Wifi access point.
+
+Then the serial output will eventually look like:
+
+```
+*WM: Sent wifi save page
+*WM: Connecting to new AP
+*WM: Connecting as wifi client...
+*WM: Connection result:
+*WM: 3
+FauxMo demo sketch
+After connection, ask Alexa/Echo to 'turn <devicename> on' or 'off'
+```
+
+On subsequent restarts of the ESP8266 device the output will look similar to:
+
+```
+*WM: Connection result:
+*WM: 3
+*WM: IP Address:
+*WM: 192.168.86.130
+FauxMo demo sketch
+After connection, ask Alexa/Echo to 'turn <devicename> on' or 'off'
+```
+
+You can now ask Alexa to discover devices and then you will have two new devices: `pixels` and `relay`. Then say "Alexa, turn on pixels" and you will eventually see a serial message.
