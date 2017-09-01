@@ -3,35 +3,13 @@
 #include <ESP8266WiFi.h>
 #include "fauxmoESP.h"
 
-#define WIFI_SSID "Williams Five"
-#define WIFI_PASS "drnicwilliams"
+#include <wifisetup.h>
+
+
 #define SERIAL_BAUDRATE 9600
 
 fauxmoESP fauxmo;
-
-// -----------------------------------------------------------------------------
-// Wifi
-// -----------------------------------------------------------------------------
-
-void wifiSetup() {
-
-    // Set WIFI module to STA mode
-    WiFi.mode(WIFI_STA);
-
-    // Connect
-    Serial.printf("[WIFI] Connecting to %s ", WIFI_SSID);
-    WiFi.begin(WIFI_SSID, WIFI_PASS);
-
-    // Wait
-    while (WiFi.status() != WL_CONNECTED) {
-        Serial.print(".");
-        delay(100);
-    }
-    Serial.println();
-
-    // Connected!
-    Serial.printf("[WIFI] STATION Mode, SSID: %s, IP address: %s\n", WiFi.SSID().c_str(), WiFi.localIP().toString().c_str());
-}
+WifiSetup wifiSetup;
 
 void callback(uint8_t device_id, const char * device_name, bool state) {
   Serial.print("Device "); Serial.print(device_name);
@@ -46,11 +24,13 @@ void callback(uint8_t device_id, const char * device_name, bool state) {
 void setup() {
     // Init serial port and clean garbage
     Serial.begin(SERIAL_BAUDRATE);
+    wifiSetup.setup();
+
     Serial.println("FauxMo demo sketch");
     Serial.println("After connection, ask Alexa/Echo to 'turn <devicename> on' or 'off'");
 
     // Wifi
-    wifiSetup();
+    wifiSetup.setup();
 
     // Fauxmo
     fauxmo.addDevice("relay");
