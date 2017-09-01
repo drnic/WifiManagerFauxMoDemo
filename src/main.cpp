@@ -30,7 +30,7 @@ void setup() {
     //reset saved settings
     // wifiManager.resetSettings();
 
-    wifiManager.autoConnect("Dr Nic Device");
+    wifiManager.autoConnect();
 
     Serial.println("FauxMo demo sketch");
     Serial.println("After connection, ask Alexa/Echo to 'turn <devicename> on' or 'off'");
